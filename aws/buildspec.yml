@@ -1,0 +1,19 @@
+version: 0.2
+
+run-as: root
+     
+phases:
+  install:
+    runtime-versions:
+      java: openjdk11
+      nodejs: 14.x
+      python: 3.x
+    commands:
+      - npm install -g bower @bazel/bazelisk
+      - yum install -y maven zip unzip curl gcc-c++
+      - git submodule init
+      - git submodule update --recursive
+  build:
+    commands:
+      - echo "-----------TEST---------------"
+      - ls -la
