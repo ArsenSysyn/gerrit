@@ -6,7 +6,7 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-      nodejs: 14
+      nodejs: 12
       python: 3.7
     commands:
       - npm install -g bower @bazel/bazelisk
