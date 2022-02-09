@@ -1,13 +1,12 @@
 version: 0.2
 
 phases:
-  install:
+  #install:
 #    runtime-versions:
 #      java: corretto11
 #      nodejs: 12
 #      python: 3.7
-    commands:
-       - yum install -y tree
+  #  commands:
   #    - npm install -g bower @bazel/bazelisk
    #   - yum install -y maven zip unzip curl gcc-c++
     #  - git submodule init
@@ -17,10 +16,10 @@ phases:
       - echo "-----------TEST---------------"
       #- bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
       #- bazel build :release
+      - cat /etc/passwd
       - whoami
       - pwd
       - ls -la
-      - tree
  # post_build:
   #  run_as: root
    # commands:
