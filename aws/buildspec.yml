@@ -20,7 +20,7 @@ phases:
       - bazel build :release
   post_build:
     commands:
-      - sudo cp bazel-bin/release.war /release.war
+      - cp bazel-bin/release.war /release.war
   
 artifacts:
   files:
