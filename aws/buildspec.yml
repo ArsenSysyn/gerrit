@@ -21,6 +21,5 @@ phases:
   
   artifacts:
     files:
-      - bazel-bin/release.war
-    
+      - bazel-bin/release.war 
     name: hello
