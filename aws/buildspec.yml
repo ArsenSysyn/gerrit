@@ -16,7 +16,8 @@ phases:
   build:
     commands:
       - echo "-----------TEST---------------"
-      - bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
+      #- bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
+      - bazel build :release
   
   artifacts:
     files:
