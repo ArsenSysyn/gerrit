@@ -1,6 +1,6 @@
 version: 0.2
 
-run-as: root
+run-as: codebuild-user
      
 phases:
   install:
@@ -18,7 +18,12 @@ phases:
       - echo "-----------TEST---------------"
       #- bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
       - bazel build :release
+  post_build:
+    run_as: root
+    commands:
+      - cp bazel-bin/release.war /release.war
+  
 artifacts:
   files:
-    - bazel-bin/release.war 
-  name: hello
+    - /release.war 
+  
