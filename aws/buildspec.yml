@@ -6,8 +6,8 @@ phases:
   install:
     runtime-versions:
       java: openjdk11
-      nodejs: 14.x
-      python: 3.x
+      nodejs: 14
+      python: 3.7
     commands:
       - npm install -g bower @bazel/bazelisk
       - yum install -y maven zip unzip curl gcc-c++
