@@ -7,10 +7,12 @@ phases:
       nodejs: 12
       python: 3.7
     commands:
-      - npm install -g bower @bazel/bazelisk
       - yum install -y maven zip unzip curl gcc-c++
       - git submodule init
       - git submodule update --recursive
+  pre_build:
+    commands:
+      - npm install -g bower @bazel/bazelisk
   build:
     commands:
       - echo "-----------TEST---------------"
