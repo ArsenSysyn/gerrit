@@ -7,22 +7,20 @@ phases:
       nodejs: 12
       python: 3.7
     commands:
-      #- yum install -y maven zip unzip curl gcc-c++
+      - yum install -y maven zip unzip curl gcc-c++
       - git submodule init
       - git submodule update --recursive
   pre_build:
     commands:
-      #- npm install -g bower @bazel/bazelisk
-      - la -la /root
-      - ls -la /root/.cache
+      - npm install -g bower @bazel/bazelisk
   build:
     commands:
-      #- echo "-----------TEST---------------"
+      - echo "-----------TEST---------------"
       #- bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
-      #- bazel build :release
+      - bazel build :release
       - whoami
-     # - cp bazel-bin/release.war /release.war
-#artifacts:
-#  files:
- #   - /release.war 
+      - cp bazel-bin/release.war /release.war
+artifacts:
+  files:
+    - /release.war 
   
