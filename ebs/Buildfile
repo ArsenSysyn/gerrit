@@ -1,0 +1,1 @@
+init: java -jar release.war init --batch --dev -d ~/gerrit
