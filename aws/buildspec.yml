@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - echo "-----------TEST---------------"
-      #- bazel test --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
-      - bazel build --remote_cache=$IP_CACHE :release
+      #- bazel test --remote_cache=http://$IP_CACHE:9090 --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
+      - bazel build --remote_cache=http://$IP_CACHE:9090 :release
       - cp bazel-bin/release.war ./ebs
   
