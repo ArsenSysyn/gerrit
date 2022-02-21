@@ -21,6 +21,7 @@ phases:
       - bazel build :release
       - cp bazel-bin/release.war ./ebs
   post_build:
+    base-directory: ebs
     commands:
-      - cd ./ebs && eb init --region=us-east-1 "64bit Amazon Linux 2 v3.2.11 running Corretto 11" Testwithupdate
+      - eb init --region=us-east-1 "64bit Amazon Linux 2 v3.2.11 running Corretto 11" Testwithupdate
       - eb deploy --region=us-east-1 Testwithupdate-env
