@@ -13,10 +13,13 @@ phases:
   pre_build:
     commands:
       - npm install -g bower @bazel/bazelisk
+      - pip install awsebcli
   build:
     commands:
       - echo "-----------TEST---------------"
       #- bazel test --remote_cache=http://$IP_CACHE:9090 --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
-      - bazel build --remote_cache=http://$IP_CACHE:9090 :release
+      - bazel build :release
       - cp bazel-bin/release.war ./ebs
-  
+  post_build:
+      - cd ./ebs && eb init --region=us-east-1 "64bit Amazon Linux 2 v3.2.11 running Corretto 11" Testwithupdate
+      - eb deploy --region=us-east-1 Testwithupdate-env
