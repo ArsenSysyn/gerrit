@@ -76,14 +76,14 @@ resource "aws_security_group" "cache" {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = ["${aws_eip.gerrit-app.public_ip}/32"]
+    cidr_blocks      = [module.vpc.vpc_cidr_block]
   }
 
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["${aws_eip.gerrit-app.public_ip}/32"]
+    cidr_blocks      = [module.vpc.vpc_cidr_block]
   }
 
   tags = {
