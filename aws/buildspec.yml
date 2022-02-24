@@ -10,18 +10,27 @@ phases:
       - yum install -y maven zip unzip curl gcc-c++
       - git submodule init
       - git submodule update --recursive
+      - curl -s -qL -o terraform_install.zip https://releases.hashicorp.com/terraform/1.1.6/terraform_1.1.6_linux_arm64.zip
+      - unzip terraform_install.zip -d /usr/bin/
+      - chmod +x /usr/bin/terraform
   pre_build:
     commands:
       - npm install -g bower @bazel/bazelisk
       - pip install awsebcli
+      - cd terraform
+      - terraform init
+      - terraform apply -auto-approve
+      - source env.sh
   build:
     commands:
-      - echo "-----------TEST---------------"
+      - echo "-----------BUILD---------------"
+      - cd ..
       #- bazel test --remote_cache=http://$IP_CACHE:9090 --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
-      - bazel build :release
+      - bazel build --remote_cache=http://$IP_CACHE:9090 :release
       - cp bazel-bin/release.war ./ebs
   post_build:
     commands:
       - cd ebs
-      - /usr/local/python37/bin/eb init --region=us-east-1 -p "64bit Amazon Linux 2 v3.2.11 running Corretto 11" Testwithupdate
-      - /usr/local/python37/bin/eb deploy --region=us-east-1 Testwithupdate-env
+      - /usr/local/python37/bin/eb init --region=us-east-1 -p "64bit Amazon Linux 2 v3.2.11 running Corretto 11" $APP_NAME
+      - /usr/local/python37/bin/eb deploy --region=us-east-1 $APP_ENV_NAME
+      - echo $IP_APP
