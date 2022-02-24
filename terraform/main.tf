@@ -156,7 +156,13 @@ resource "aws_autoscaling_group" "asg_ecs" {
 #------ASG FOR ECS------#
 
 #----------------ECS CACHE SYSTEM----------------#
-
+#-----EFS FOR APP DATA-----#
+resource "aws_efs_file_system" "appdata" {
+  tags = {
+    Name = "Appdata"
+  }
+}
+#-----EFS FOR APP DATA-----#
 #--------------------BEANSTALK ENV----------------------#
 resource "aws_elastic_beanstalk_application" "GerritApp" {
   name        = "GerritApp"
