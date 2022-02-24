@@ -204,7 +204,8 @@ resource "aws_elastic_beanstalk_environment" "GerritApp-env" {
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    EFS_ID = aws_efs_file_system.id
+    name = "EFS_ID"  
+    value = aws_efs_file_system.appdata.id
   }
 }
 
