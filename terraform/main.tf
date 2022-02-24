@@ -1,9 +1,9 @@
  terraform {
    backend "s3" {
-     bucket         = var.bucketstate
+#     bucket         = var.bucketstate
      key            = "first-test-1/terraform.tfstate"
      region         = "us-east-1"
-     dynamodb_table = var.dynamodbstate
+#     dynamodb_table = var.dynamodbstate
      encrypt        = true
    }
 
@@ -52,7 +52,7 @@ resource "aws_security_group" "cache" {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = [aws_default_vpc.default.cidr_block]
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   egress {
