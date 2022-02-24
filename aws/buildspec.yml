@@ -32,6 +32,5 @@ phases:
     commands:
       - cd ebs
       - /usr/local/python37/bin/eb init --region=us-east-1 -p "64bit Amazon Linux 2 v3.2.11 running Corretto 11" $APP_NAME
-      - /usr/local/python37/bin/eb setenv EFS_ID=$EFS_ID
       - /usr/local/python37/bin/eb deploy --region=us-east-1 $APP_ENV_NAME
-      - echo $IP_APP
+      - echo "Your app URL : http://$IP_APP:8080/"

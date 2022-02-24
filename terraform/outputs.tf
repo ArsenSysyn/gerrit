@@ -14,6 +14,3 @@ output "envname" {
     value = aws_elastic_beanstalk_environment.GerritApp-env.name
 }
 
-output "appdata"{
-    value = aws_efs_file_system.appdata.id
-}

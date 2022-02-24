@@ -202,6 +202,10 @@ resource "aws_elastic_beanstalk_environment" "GerritApp-env" {
     name = "SecurityGroups"
     value = aws_security_group.app.id
   }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    EFS_ID = aws_efs_file_system.id
+  }
 }
 
 resource "aws_eip" "gerrit-app" {
