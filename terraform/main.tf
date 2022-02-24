@@ -9,10 +9,33 @@
 
 }
 #------------DEFAULT VPC------------#
-resource "aws_default_vpc" "default" {}
+#resource "aws_default_vpc" "default" {}
+#
+#resource "aws_default_subnet" "az1" {
+#  availability_zone = "us-east-1a"
+#}
+#data "aws_availability_zones" "available" {
+#  state = "available"
+#}
 
-resource "aws_default_subnet" "az1" {
-  availability_zone = "us-east-1a"
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name = "my-vpc"
+  cidr = "10.0.0.0/16"
+  #count = length(data.aws_availability_zones.available.names)
+  #azs             = [element(data.aws_availability_zones.available.names, count.index)]
+  azs = ["us-east-1a"]
+  private_subnets = ["10.0.1.0/24"]
+  public_subnets  = ["10.0.101.0/24"]
+
+  enable_nat_gateway = true
+  enable_vpn_gateway = false
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "MyTestVpc"
+  }
 }
 
 #------------DEFAULT VPC------------#
@@ -21,7 +44,7 @@ resource "aws_default_subnet" "az1" {
 resource "aws_security_group" "app" {
   name        = "Allow public access to application"
   description = "Allow public to access to application with port 8080,29418"
-
+  vpc_id = module.vpc.vpc_id 
   dynamic "ingress" {
       for_each = ["8080","29418","22"]
       content {
@@ -47,19 +70,20 @@ resource "aws_security_group" "app" {
 resource "aws_security_group" "cache" {
   name        = "Allow access to using cache"
   description = "Allow access to using cache"
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = [module.vpc.vpc_cidr_block]
   }
 
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = [module.vpc.vpc_cidr_block]
   }
 
   tags = {
@@ -97,7 +121,7 @@ resource "aws_efs_file_system" "cache" {
 
 resource "aws_efs_mount_target" "mount" {
   file_system_id = aws_efs_file_system.cache.id
-  subnet_id      = aws_default_subnet.az1.id
+  subnet_id      = module.vpc.private_subnets[0]
 }
 # #------EFS FOR CACHE------#
 
@@ -134,12 +158,11 @@ resource "aws_launch_configuration" "ecs_launch_config" {
     security_groups      = [aws_security_group.cache.id]
     user_data            = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.cache.name} >> /etc/ecs/ecs.config"
     instance_type        = "t2.micro"
-    associate_public_ip_address = false
 }
 
 resource "aws_autoscaling_group" "asg_ecs" {
     name                      = "asg"
-    vpc_zone_identifier       = [aws_default_subnet.az1.id]
+    vpc_zone_identifier       = [module.vpc.private_subnets[0]]
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
 
     desired_capacity          = 1
@@ -172,13 +195,13 @@ resource "aws_elastic_beanstalk_environment" "GerritApp-env" {
   setting {
     namespace = "aws:ec2:vpc"
     name = "VPCId"
-    value = aws_default_vpc.default.id
+    value = module.vpc.vpc_id
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name = "Subnets"
-    value = aws_default_subnet.az1.id
+    value = module.vpc.public_subnets[0]
   }
 
   setting {

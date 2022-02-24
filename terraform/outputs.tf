@@ -3,7 +3,7 @@ output "eip" {
 }
 
 output "cacheip" {
-  value = data.aws_instance.foo.public_ip
+  value = data.aws_instance.foo.private_ip
 }
 
 output "appname" {
