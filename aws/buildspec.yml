@@ -18,7 +18,7 @@ phases:
       - npm install -g bower @bazel/bazelisk
       - pip install awsebcli
       - cd terraform
-      - terraform init -backend-config="bucket=${BUCKET_STATE}" -backend-config="dynamodb_table=${DYNAMODB_STATE}
+      - terraform init -backend-config="bucket=${BUCKET_STATE}" -backend-config="dynamodb_table=${DYNAMODB_STATE}"
       - terraform apply -auto-approve
       - source env.sh
   build:
