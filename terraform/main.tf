@@ -52,7 +52,7 @@ resource "aws_security_group" "cache" {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = [aws_default_vpc.default.cidr_block]
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   egress {
