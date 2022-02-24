@@ -76,14 +76,14 @@ resource "aws_security_group" "cache" {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = [module.vpc.vpc_cidr_block]
+    cidr_blocks      = ["${aws_eip.gerrit-app.public_ip}/32"]
   }
 
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = [module.vpc.vpc_cidr_block]
+    cidr_blocks      = ["${aws_eip.gerrit-app.public_ip}/32"]
   }
 
   tags = {
@@ -121,7 +121,7 @@ resource "aws_efs_file_system" "cache" {
 
 resource "aws_efs_mount_target" "mount" {
   file_system_id = aws_efs_file_system.cache.id
-  subnet_id      = module.vpc.private_subnets[0]
+  subnet_id      = module.vpc.public_subnets[0]
 }
 # #------EFS FOR CACHE------#
 
@@ -162,7 +162,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 
 resource "aws_autoscaling_group" "asg_ecs" {
     name                      = "asg"
-    vpc_zone_identifier       = [module.vpc.private_subnets[0]]
+    vpc_zone_identifier       = [module.vpc.public_subnets[0]]
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
 
     desired_capacity          = 1
