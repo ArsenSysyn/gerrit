@@ -207,6 +207,7 @@ resource "aws_elastic_beanstalk_environment" "GerritApp-env" {
     name = "EFS_ID"  
     value = aws_efs_file_system.appdata.id
   }
+   depends_on = [aws_efs_file_system.appdata]
 }
 
 resource "aws_eip" "gerrit-app" {
