@@ -162,6 +162,10 @@ resource "aws_efs_file_system" "appdata" {
     Name = "Appdata"
   }
 }
+resource "aws_efs_mount_target" "mount_appdata" {
+  file_system_id = aws_efs_file_system.appdata.id
+  subnet_id      = aws_default_subnet.az1.id
+}
 #-----EFS FOR APP DATA-----#
 #--------------------BEANSTALK ENV----------------------#
 resource "aws_elastic_beanstalk_application" "GerritApp" {
