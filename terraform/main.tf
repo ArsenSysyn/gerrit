@@ -208,8 +208,13 @@ resource "aws_elastic_beanstalk_environment" "GerritApp-env" {
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name = "EFS_ID"  
+    name = "FILE_SYSTEM_ID"  
     value = aws_efs_file_system.appdata.id
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "MOUNT_DIRECTORY"  
+    value = "/efs"
   }
    depends_on = [aws_efs_file_system.appdata]
 }
