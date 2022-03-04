@@ -52,7 +52,7 @@ resource "aws_security_group" "cache" {
     from_port        = 9090
     to_port          = 9090
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks      = data.aws_ip_ranges.codebuild.cidr_blocks
   }
 
   egress {
@@ -64,6 +64,8 @@ resource "aws_security_group" "cache" {
 
   tags = {
     Name = "CacheSG"
+    CreateDate = data.aws_ip_ranges.codebuild.create_date
+    SyncToken  = data.aws_ip_ranges.codebuild.sync_token
   }
 }
 #-----------------SECURITY GROUPS-----------------#
