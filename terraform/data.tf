@@ -23,3 +23,8 @@ data "aws_instance" "foo" {
   ]
 
 }
+data "aws_ip_ranges" "codebuild" {
+    regions = [ "us-east-1" ]
+    services = [ "codebuild" ]
+  
+}
