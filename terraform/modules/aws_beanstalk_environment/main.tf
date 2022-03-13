@@ -3,10 +3,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
   application             = var.app_name
   solution_stack_name     = var.solution_stack
   wait_for_ready_timeout  = var.timeout
-  tags = merge(
-    tomap({"Name" = var.env_name}),
-    var.tags,
-  )
+  tags = var.tags
 ### ENVIRONMENT SETTINGS  ###
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
