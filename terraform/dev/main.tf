@@ -138,7 +138,7 @@ module "elastic-beanstalk-application" {
 module "elastic-beanstalk-environment" {
   source  = "../modules/aws_beanstalk_environment"
   app_name = module.elastic-beanstalk-application.elastic_beanstalk_application_name
-  env_name = "${module.elastic-beanstalk-application.elastic_beanstalk_application_name}_env"
+  env_name = "${module.elastic-beanstalk-application.elastic_beanstalk_application_name}env"
   solution_stack = "64bit Amazon Linux 2 v3.2.11 running Corretto 11"
   vpc_id = aws_default_vpc.default.id
   subnets_ids = [aws_default_subnet.az1.id]
