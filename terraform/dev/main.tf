@@ -1,9 +1,9 @@
  terraform {
    backend "s3" {
-     bucket         = "mybucketforterraformstatearsen"
+//     bucket         = "env-variable"
      key            = "first-test-2/terraform.tfstate"
      region         = "us-east-1"
-     dynamodb_table = "dynamodb-lock"
+//     dynamodb_table = "env-variable"
      encrypt        = true
    }
 }
