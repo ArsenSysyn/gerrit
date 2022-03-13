@@ -3,6 +3,10 @@ resource "aws_elastic_beanstalk_environment" "default" {
   application             = var.app_name
   solution_stack_name     = var.solution_stack
   wait_for_ready_timeout  = var.timeout
+  tags = merge(
+    tomap({"Name" = var.env_name}),
+    var.tags,
+  )
 ### ENVIRONMENT SETTINGS  ###
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
@@ -18,23 +22,19 @@ resource "aws_elastic_beanstalk_environment" "default" {
     resource = ""
    }
   // Subnets ids
-  dynamic setting {
-   for_each = var.subnets_ids
-    content {
-      namespace = "aws:ec2:vpc"
-      name      = "Subnets"
-      value     = setting.value
-      resource = ""
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "Subnets"
+    value     = join(",",sort(var.subnets_ids))
+    resource = ""
    }
   }
   // Security group ids
-  dynamic setting {
-   for_each = var.security_group_ids
-    content {
-      namespace = "aws:autoscaling:launchconfiguration"
-      name      = "SecurityGroups"
-      value     = setting.value
-      resource = ""
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "SecurityGroups"
+    value     = join(",",sort(var.security_group_ids))
+    resource = ""
     }
    }
   // Environment vars
@@ -58,10 +58,6 @@ resource "aws_elastic_beanstalk_environment" "default" {
       resource = ""
     }
   }
-  tags = merge(
-    tomap({"Name" = var.env_name}),
-    var.tags,
-  )
   lifecycle {
     ignore_changes = [tags]
   }
