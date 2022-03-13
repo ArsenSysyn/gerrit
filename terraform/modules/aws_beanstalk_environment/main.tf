@@ -8,12 +8,14 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "IamInstanceProfile"
     value = "aws-elasticbeanstalk-ec2-role"
+    resource = ""
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name = "VPCId"
     value = var.vpc_id
+    resource = ""
    }
   // Subnets ids
   dynamic setting {
@@ -31,6 +33,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = "aws:autoscaling:launchconfiguration"
       name      = "SecurityGroups"
       value     = setting.value
+      resource = ""
     }
    }
   // Environment vars
@@ -40,6 +43,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = setting.key
       value     = setting.value
+      resource = ""
     }
   }
 
@@ -50,12 +54,16 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = setting.value[0]
       name      = setting.value[1]
       value     = setting.value[2]
+      resource = ""
     }
   }
   tags = merge(
     tomap({"Name" = var.env_name}),
     var.tags,
   )
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 data "aws_instance" "this" {
