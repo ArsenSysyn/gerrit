@@ -50,5 +50,7 @@ variable "env_vars" {
 variable "tags" {
   description = "A mapping of tags to apply to resources"
   type = map(string)
-  default     = {}
+  default     = {
+     "Provided_by" = "Terraform" 
+  }
 }
