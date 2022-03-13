@@ -24,6 +24,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = "aws:ec2:vpc"
       name      = "Subnets"
       value     = setting.value
+      resource = ""
    }
   }
   // Security group ids
