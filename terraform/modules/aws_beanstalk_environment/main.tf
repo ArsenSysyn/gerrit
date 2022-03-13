@@ -25,7 +25,6 @@ resource "aws_elastic_beanstalk_environment" "default" {
     value     = join(",",sort(var.subnets_ids))
     resource = ""
    }
-  }
   // Security group ids
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
@@ -33,7 +32,6 @@ resource "aws_elastic_beanstalk_environment" "default" {
     value     = join(",",sort(var.security_group_ids))
     resource = ""
     }
-   }
   // Environment vars
   dynamic "setting" {
     for_each = var.env_vars
