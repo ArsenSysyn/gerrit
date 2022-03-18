@@ -17,14 +17,14 @@ phases:
     commands:
       - npm install -g bower @bazel/bazelisk
       - pip install awsebcli
-      - cd terraform/dev
+      - cd terraform
       - terraform init -backend-config="bucket=${BUCKET_STATE}" -backend-config="dynamodb_table=${DYNAMODB_STATE}"
       - terraform apply -auto-approve
       - source env.sh
   build:
     commands:
       - echo "-----------BUILD---------------"
-      - cd ../..
+      - cd ..
       #- bazel test --remote_cache=http://$IP_CACHE:9090 --test_env=GERRIT_USE_SSH=NO --test_tag_filters=-ssh,-delete-project,-git-protocol-v2,-git-upload-archive //...
       - bazel build --remote_cache=http://$IP_CACHE:9090 :release
       - cp bazel-bin/release.war ./ebs
