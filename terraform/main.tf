@@ -65,7 +65,7 @@ module "cachesg" {
 // own module
 module "cache_efs" {
   // creates EFS and mount target for it
-  source = "../modules/aws_efs"
+  source = "./modules/aws_efs"
   vpc_id = aws_default_vpc.default.id
   subnets = [aws_default_subnet.az1.id]
   name = "Cache_EFS"
@@ -75,7 +75,7 @@ module "cache_efs" {
 // own module
 module "appdata_efs" {
   // creates EFS and mount target for it
-  source = "../modules/aws_efs"
+  source = "./modules/aws_efs"
   vpc_id = aws_default_vpc.default.id
   subnets = [aws_default_subnet.az1.id]
   name = "Appdata_EFS"
@@ -136,7 +136,7 @@ module "elastic-beanstalk-application" {
 
 // own module
 module "elastic-beanstalk-environment" {
-  source  = "../modules/aws_beanstalk_environment"
+  source  = "./modules/aws_beanstalk_environment"
   app_name = module.elastic-beanstalk-application.elastic_beanstalk_application_name
   env_name = "${module.elastic-beanstalk-application.elastic_beanstalk_application_name}env"
   solution_stack = "64bit Amazon Linux 2 v3.2.11 running Corretto 11"
