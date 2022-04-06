@@ -13,3 +13,7 @@ output "appname" {
 output "envname" {
   value = module.elastic-beanstalk-environment.env_name
 }
+
+output "url" {
+  value = module.elastic-beanstalk-environment.url
+}
