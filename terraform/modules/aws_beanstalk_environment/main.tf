@@ -15,7 +15,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
   setting {
     namespace = "aws:ec2:vpc"
     name = "VPCId"
-    value = var.vpc_id
+    value = join(",",sort(var.vpc_ids))
     resource = ""
    }
   // Subnets ids
@@ -30,6 +30,13 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
     value     = join(",",sort(var.security_group_ids))
+    resource = ""
+    }
+  // app default port
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PORT"
+    value     = var.port
     resource = ""
     }
   // Environment vars

@@ -140,9 +140,10 @@ module "elastic-beanstalk-environment" {
   app_name = module.elastic-beanstalk-application.elastic_beanstalk_application_name
   env_name = "${module.elastic-beanstalk-application.elastic_beanstalk_application_name}env"
   solution_stack = "64bit Amazon Linux 2 v3.2.11 running Corretto 11"
-  vpc_id = aws_default_vpc.default.id
+  vpc_ids = [aws_default_vpc.default.id]
   subnets_ids = [aws_default_subnet.az1.id]
   security_group_ids = [module.appsg.security_group_id,module.appdata_efs.ec2_security_group_id]
+  port = 8080
   env_vars = {
     FILE_SYSTEM_ID = module.appdata_efs.file_system_id
   }

@@ -8,8 +8,14 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "vpc_id" {
-  description = "Specify VPC ID"
+variable "vpc_ids" {
+  description = "Specify VPC IDs"
+  
+}
+
+variable "port" {
+  description = "Specify your app port"
+  default = 5000
   
 }
 variable "env_settings" {
