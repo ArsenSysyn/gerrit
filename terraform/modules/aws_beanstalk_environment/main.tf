@@ -64,20 +64,3 @@ resource "aws_elastic_beanstalk_environment" "default" {
     ignore_changes = [tags]
   }
 }
-
-data "aws_instance" "this" {
-  instance_tags = {
-    "Name" = aws_elastic_beanstalk_environment.default.name
-  }
-  depends_on = [aws_elastic_beanstalk_environment.default]
-}
-
-// attach EIP to beanstalk instance
-resource "aws_eip" "this" {
-  instance = data.aws_instance.this.id
-  vpc      = true
-  depends_on = [aws_elastic_beanstalk_environment.default]
-  tags = {
-    Name = "EIP for ${var.env_name}"
-  }
-}
