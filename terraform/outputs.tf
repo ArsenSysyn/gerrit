@@ -13,3 +13,7 @@ output "envname" {
 output "url" {
   value = module.elastic-beanstalk-environment.url
 }
+
+output "region" {
+  value = data.aws_region.current.name
+}

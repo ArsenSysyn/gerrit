@@ -1,12 +1,3 @@
-# data "aws_instance" "foo" {
-#   instance_tags = {
-#     "Name" = "CacheContainer"
-#   }
-#   depends_on = [
-#     aws_autoscaling_group.asg_ecs
-#   ]
-
-# }
 data "aws_ip_ranges" "codebuild" {
     regions = [ "us-east-1" ]
     services = [ "codebuild" ] 
@@ -31,3 +22,5 @@ data "aws_instance" "cache" {
     module.app_ecs_cluster
   ]
 }
+
+data "aws_region" "current" {}
