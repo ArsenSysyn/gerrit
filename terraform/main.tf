@@ -21,24 +21,10 @@ module "appsg" {
   vpc_id = aws_default_vpc.default.id
   ingress_with_cidr_blocks = [
     {
-      from_port   = 8080
-      to_port     = 8080
-      protocol    = "tcp"
-      description = "User-service ports"
-      cidr_blocks = "0.0.0.0/0"
-    },
-    {
       from_port   = 29418
       to_port     = 29418
       protocol    = "tcp"
       description = "User-service ports"
-      cidr_blocks = "0.0.0.0/0"
-    },
-    {
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      description = "SSH-to-server"
       cidr_blocks = "0.0.0.0/0"
     }
   ]
