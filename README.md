@@ -1,9 +1,48 @@
+# Deploy Gerrit to AWS
+So for deploying Gerrit to AWS we use AWS ECS cluster for external bazel cache container, AWS EFS for storing cache and storing application data, AWS Beanstalk for run our application and a CodeBuild for run all our commands - terraform apply, bazel build, eb deploy. Also all our necessary infrastructure are defined using __Terraform__. 
+All source code were forked from official repository Gerrit and there we have __3__ directories managed by me:
+  
+  - ebs/ - for Beanstalk;
+  - aws/ - for Codebuild;
+  - terraform/ - terraform code.
+
+---
+
+## ebs/ - Elastic Beanstalk directory
+There we have all necessary files that is .ebextensions/ directory with files and Buildfile and Procfile. Why we need this files?
+Just deploy application to beanstalk by one command we couldn’t because our application needs to run some commands. So for extending functionality of our environment we need these files. 
+So for deploying Gerrit to Beanstalk we using ebcli tool - it is tool powered by AWS for managing Beanstalk environment using CLI.
+So the deploy process start from `eb deploy` command
+The deploying starts from __.ebextensions/__ dir where we have three files:
+ 
+ - 01_mount - mount EFS volume to our application server.
+ - 02_init - creating necessary subdirectories for application
+ - 03_staging - change some preferences in the config file of our application.
+
+ Then our environment will start commands that are defined in __Buildfile__ and __Procfile__. Commands from these files started in order __.ebextensions/ commands --> Buildfile --> Procfile --> Running application.__
+ 
+ - Buildfile - run init command for first initialization of our application.
+ - Procfile - start our application as a systemd service.
+
+---
+
+## aws/ - Codebuild pipeline
+So in this directory we have our Codebuild pipeline __buildspec.yml__. For best understanding of all commands I transform it to words.
+![pipeline](aws/pipelinephoto.png)
+
+---
+
+## terraform/ - terraform code
+
+
+
+---
+
 # Gerrit Code Review
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
-[![Build Status](https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-java11-master/badge/icon)](https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-java11-master/)
 ![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war) 
 
 ## Objective
