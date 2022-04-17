@@ -10,6 +10,9 @@ More details about all files that stored in these directories are describedd in 
 
 Then we have all info from official repository.
 
+And there you can see my CI/CD process: 
+![workingmodel](./workingmodel.png)
+
 ---
 
 # Gerrit Code Review
