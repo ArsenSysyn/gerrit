@@ -1,5 +1,7 @@
 # Module for creating EFS in AWS
 
+This module is responsbile for creating Elastic File System in AWS with necessary security group for limited access to EFS.
+
 ## Usage
 
 ```
