@@ -68,3 +68,15 @@ Description: specify tags
 default: ```{
      "Provided_by" = "Terraform" 
 }```
+
+---
+
+## Outputs
+
+__env_name__
+
+Description: environment name
+
+__url__
+
+Description: URL of your environment
