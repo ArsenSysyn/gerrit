@@ -4,7 +4,7 @@ This module is responsbile for creating a new environment in the Elastic Beansta
 
 Options for beanstalk environments are documented here: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
 
-Example:
+## Usage:
 
 ```
 module "elastic-beanstalk-environment" {
