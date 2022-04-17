@@ -21,50 +21,77 @@ module "elastic-beanstalk-environment" {
   }
 }
 ```
+
+---
+
 ## Required inputs
 
 __app_name__(string)
+
 Description: specify application name where module create environment
 
 __env_name__(string)
+
 Description: specify environment name
 
 __solution_stack__(string)
+
 Description: specify solution stack name for your environment
 
 __vpc_ids__(list)
+
 Description: specify VPC ids for your environment
 
 __subnets_ids__(list)
+
 Description: specify subnets ids for your environment
 
 __secutiry_group_ids__(list)
+
 Description: specify security group ids for your environment
+
+---
 
 ## Optional inputs
 
 __timeout__(string)
+
 Description: specify timeout of creating environment
+
 default: `"20m"`
 
 __port__(integer)
+
 Description: specify port which your application use
+
 default: `5000`
 
+
 __env_vars__(map(string))
+
 Description: specify environment variables
+
 default: '{}'
 
+
 __env_settings__(list(string))
+
 Description: specify some additional settings using
+
 default: '[ "aws:elasticbeanstalk:application:environment", "BUNDLE_WITHOUT", "test:development"]'
 
+
 __instance_type__(string)
+
 Description: specify instance type of environment
+
 default: 't2.micro'
 
+
 __tags__(map(string))
+
 Description: specify tags
+
 default: ```{
      "Provided_by" = "Terraform" 
 }```
